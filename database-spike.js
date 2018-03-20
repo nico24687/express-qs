@@ -5,6 +5,5 @@ const database = require('knex')(configuration)
 database.raw('SELECT * FROM foods')
   .then(data => {
     console.log(data.rows)
-    debugger
     process.exit()
   })

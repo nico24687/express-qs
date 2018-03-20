@@ -5,7 +5,7 @@ const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
 
 
-
+//working in postman but test thinks its an object
 router.get('/', (req,res,next) => {
   database.raw(
     'SELECT * FROM foods'
@@ -14,7 +14,7 @@ router.get('/', (req,res,next) => {
   })
 })
 
-
+//test is passing for this one 
 router.get('/:id',(req,res,next) => {
   let id = req.params.id 
   database.raw(
@@ -24,7 +24,7 @@ router.get('/:id',(req,res,next) => {
     if(!food.rows){
       return res.sendStatus(404)
     } else {
-      res.json(food.rows)
+      res.json(food.rows[0])
     }
   })
 })
