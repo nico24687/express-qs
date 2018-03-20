@@ -5,6 +5,16 @@ const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
 
 
+
+router.get('/', (req,res,next) => {
+  database.raw(
+    'SELECT * FROM foods'
+  ).then( foods => {
+    res.json(foods.rows)
+  })
+})
+
+
 router.get('/:id',(req,res,next) => {
   let id = req.params.id 
   database.raw(
