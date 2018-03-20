@@ -36,7 +36,7 @@ describe("API routes", () => {
       .then(response => {
         response.should.have.status(200)
         response.should.be.json
-        // response.should.be.a('Array')
+        response.body.should.be.a('array')
         response.body[0].should.have.property('id')
         response.body[0].should.have.property('name')
         response.body[0].should.have.property('calories')
@@ -53,7 +53,7 @@ describe("API routes", () => {
       .then(response => {
         response.should.have.status(200)
         response.should.be.json
-        response.body.should.be.a('Object')
+        response.body.should.be.a('object')
         response.body.should.have.property('id')
         response.body.id.should.equal(13)
         response.body.should.have.property('name')
@@ -72,7 +72,7 @@ describe("API routes", () => {
       .then(response => {
         response.should.have.status(201)
         response.should.be.json
-        response.body.should.be.a('Object')
+        response.body.should.be.a('object')
         response.body.should.have.property('id')
         response.body.should.have.property('name')
         response.body.should.have.property('calories')
@@ -82,7 +82,28 @@ describe("API routes", () => {
     })
   })
 
-  xdescribe('DELETE /api/v1/foods/:id', () => {
+  xdescribe('PUT /api/v1/foods/:id', () => {
+    it("updates a food and returns it as json", () => {
+      return chai.request(server)
+      .put('api/v1/foods/13')
+      .send({food: {name: 'Fredo Bar', calories: 200}})
+      .then(response => {
+        response.should.have.status(200)
+        response.should.be.json 
+        response.body.should.be.a('object')
+        response.body.should.have.proeprty('id')
+        response.body.id.should.equal(13)
+        response.body.should.have.property('name')
+        response.body.name.should.equal('Fredo Bar')
+        response.body.should.have.property('calories')
+        response.body.calories.should.equal(200)
+      }).catch(error => {
+        throw error 
+      })
+    })
+  })
+
+  describe('DELETE /api/v1/foods/:id', () => {
     it("deletes a given food and returns a 204", () => {
       return chai.request(server)
       .delete('/api/v1/foods/13')
