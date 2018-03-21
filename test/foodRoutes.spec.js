@@ -49,18 +49,27 @@ describe("API routes", () => {
   describe('GET /api/v1/foods/:id', () => {
     it("returns a single food", () => {
       return chai.request(server)
-      .get('/api/v1/foods/13')
+      .get('/api/v1/foods/14')
       .then(response => {
         response.should.have.status(200)
         response.should.be.json
         response.body.should.be.a('object')
         response.body.should.have.property('id')
-        response.body.id.should.equal(13)
+        response.body.id.should.equal(14)
         response.body.should.have.property('name')
         response.body.should.have.property('calories')
       }).catch(error => {
         throw error 
       })
+    })
+    it("retuns a 404 for a food that does not exist", ()=>{
+      return chai.request(server)
+        .get('/api/v1/foods/9999')
+        .then(response => {
+          response.should.have.status(404)
+        }).catch(error => {
+          throw error
+        })
     })
   })
 
@@ -85,7 +94,7 @@ describe("API routes", () => {
   xdescribe('PUT /api/v1/foods/:id', () => {
     it("updates a food and returns it as json", () => {
       return chai.request(server)
-      .put('api/v1/foods/13')
+      .put('api/v1/foods/14')
       .send({food: {name: 'Fredo Bar', calories: 200}})
       .then(response => {
         response.should.have.status(200)
@@ -103,7 +112,7 @@ describe("API routes", () => {
     })
   })
 
-  describe('DELETE /api/v1/foods/:id', () => {
+  xdescribe('DELETE /api/v1/foods/:id', () => {
     it("deletes a given food and returns a 204", () => {
       return chai.request(server)
       .delete('/api/v1/foods/13')

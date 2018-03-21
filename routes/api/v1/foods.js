@@ -3,6 +3,7 @@ const router = express.Router()
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
+// const foodsController = require('../../../controllers/foodsController')
 
 
 
@@ -14,14 +15,13 @@ router.get('/', (req,res,next) => {
   })
 })
 
-
 router.get('/:id',(req,res,next) => {
   let id = req.params.id 
   database.raw(
     'SELECT * FROM foods WHERE id = ?',
     [id]
   ).then( food => {
-    if(!food.rows){
+    if(!food.rows[0]){
       return res.sendStatus(404)
     } else {
       res.json(food.rows[0])
@@ -34,13 +34,13 @@ router.post('/', (req,res,next) =>{
   let name = food.name 
   let calories = parseInt(food.calories)
   if(!name || !calories){
-    return res.status(422).send({error: "No food info provided"})
+    return res.status(400).send({error: "No food info provided"})
   }
   database.raw(
     'INSERT INTO foods(name, calories, created_at) VALUES (?,?) RETURNING *'
     [name, calories, new Date] 
   ).then(food => {
-    res.status(201).json(food.rows)
+    res.status(201).json(food)
   })
 })
 
@@ -69,7 +69,7 @@ router.put('/:id', (req,res,next) => {
   })
 })
 
-//make it so you can only delete a food if it does not exist on a meal
+
 router.delete('/:id', (req,res,next) => {
   let foodId = req.params.id 
   database.raw(
