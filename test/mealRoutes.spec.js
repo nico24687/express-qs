@@ -29,7 +29,7 @@ describe('API routes', () => {
     .done()
   })
 
-  describe('GET /api/v1/meals', () => {
+  xdescribe('GET /api/v1/meals', () => {
     it('should return all meals with their associated foods', () => {
       return chai.request(server)
       .get('/api/v1/meals')
@@ -52,7 +52,7 @@ describe('API routes', () => {
     })
   })
 
-  describe('GET /api/v1/meals/:meal_id/foods', () => {
+  xdescribe('GET /api/v1/meals/:meal_id/foods', () => {
     it("returns an array of foods for a given meal", () => {
       return chai.request(server)
       .get('/api/v1/meals/2/foods')
@@ -76,5 +76,31 @@ describe('API routes', () => {
         throw error 
       })
     })
+    it('returns a 404 for a non existing meal record', () => {
+      return chai.request(server)
+      .get('/api/v1/meals/999/foods')
+      .then(response => {
+        response.should.have.status(404)
+      }).catch(error => {
+        throw error
+      })
+    })
   })
+
+  xdescribe('POST /api/v1/meals/:meal_id/foods/:id', () => {
+    it("makes a new record in the meal_foods table", () => {
+      return chai.request(server)
+      .post('/api/v1/meals/2/13')
+      .then(response => {
+        response.should.have.status(201)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.message.should.include('Added')
+      })
+      .catch(error => {
+        throw error
+      })
+    })
+  })
+
 })

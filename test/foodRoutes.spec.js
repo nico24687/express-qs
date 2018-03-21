@@ -73,7 +73,7 @@ describe("API routes", () => {
     })
   })
 
-  xdescribe(' POST /api/v1/foods', () => {
+  describe(' POST /api/v1/foods', () => {
     it("creates a new food and retuns it as json", ()=> {
       return chai.request(server)
       .post('/api/v1/foods')
@@ -125,7 +125,5 @@ describe("API routes", () => {
   })
 
 
-  //could add some more tests for sad paths i.e. what happens if you try to get a food with an id that does not exist. 
-  //Or what happens when you try to delete a food with an id that does not exist
 
 })
