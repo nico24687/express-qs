@@ -1,12 +1,13 @@
 
-exports.up = function(knex, Promise) {
-  return knex.schema.createTable('meals', (table) => {
-    table.increments('id').primary()
-    table.string('name').unique().notNullable()
-    table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'))
-  })
-}
+exports.up = function (knex, Promise) {
+  let createQuery = `CREATE TABLE meals(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name TEXT
+  )`
+  return knex.raw(createQuery)
+};
 
-exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('meals')
-}
+exports.down = function (knex, Promise) {
+  let dropQuery = `DROP TABLE meals`
+  return knex.raw(dropQuery)
+};

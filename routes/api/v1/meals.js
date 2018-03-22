@@ -6,8 +6,10 @@ const database = require('knex')(configuration)
 
 router.get('/', (req,res,next) => {
   database.raw(
-    'SELECT * FROM meals'
+    'SELECT m.*, json_agg(f.*) AS foods FROM meals m INNER JOIN meal_foods mf ON m.id = mf.meal_id INNER JOIN foods f ON mf.food_id = f.id GROUP BY m.id'
   ).then(meals => {
-    return meals.rows
+    res.json(meals.rows)
   })
 })
+
+module.exports = router

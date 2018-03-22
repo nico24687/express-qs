@@ -3,7 +3,7 @@ const should = chai.should()
 const chaiHttp = require('chai-http')
 chai.use(chaiHttp)
 
-const environment = process.env.NODE_ENV || 'test'
+const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../knexfile.js')[environment]
 const database = require('knex')(configuration)
 const server = require('../app.js')
@@ -29,14 +29,14 @@ describe('API routes', () => {
     .done()
   })
 
-  xdescribe('GET /api/v1/meals', () => {
+  describe('GET /api/v1/meals', () => {
     it('should return all meals with their associated foods', () => {
       return chai.request(server)
       .get('/api/v1/meals')
       .then(response => {
         response.should.have.status(200)
         response.should.be.json
-        response.should.be.a('array')
+        response.body.should.be.a('array')
         response.body[0].should.have.property('id')
         response.body[0].id.should.equal(1)
         response.body[0].should.have.property('name')

@@ -1,20 +1,27 @@
-exports.seed = function (knex, Promise) {
-  return knex.raw('TRUNCATE foods CASCADE ')
-    .then(function () {
+exports.seed = (knex, Promise) => {
+  return knex.raw('TRUNCATE foods RESTART IDENTITY')
+    .then(() => {
       return Promise.all([
-        knex('foods').insert([{ name: "Banana", calories: 150 },
-        { name: "Bagel Bites - Four Cheese", calories: 650 },
-        { name: "Chicken Burrito", calories: 800 },
-        { name: "Grapes", calories: 180 },
-        { name: "Blueberry Muffins", calories: 450 },
-        { name: "Yogurt", calories: 550 },
-        { name: "Macaroni and Cheese", calories: 950 },
-        { name: "Granola Bar", calories: 200 },
-        { name: "Gum", calories: 50 },
-        { name: "Cheese", calories: 400 },
-        { name: "Fruit Snacks", calories: 120 },
-        { name: "Apple", calories: 200 }
-        ])
+        knex.raw(
+          'INSERT INTO foods (name, calories) VALUES (?, ?)',
+          ["Banana", 150]
+        ),
+        knex.raw(
+          'INSERT INTO foods (name, calories) VALUES (?, ?)',
+          ["Bagel Bites", 650]
+        ),
+        knex.raw(
+          'INSERT INTO foods (name, calories) VALUES (?, ?)',
+          ["Grapes", 100]
+        ),
+        knex.raw(
+          'INSERT INTO foods (name, calories) VALUES (?, ?)',
+          ["Cookies", 300]
+        ),
+        knex.raw(
+          'INSERT INTO foods (name, calories) VALUES (?, ?)',
+          ["Burrito", 800]
+        )
       ])
     })
 }

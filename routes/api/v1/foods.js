@@ -3,20 +3,15 @@ const router = express.Router()
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
-// const foodsController = require('../../../controllers/foodsController')
+const Food = require('../../../models/food')
+const foodsController = require('../../../controllers/foodsController')
 
 
 
-router.get('/', (req,res,next) => {
-  database.raw(
-    'SELECT * FROM foods'
-  ).then( foods => {
-    res.json(foods.rows)
-  })
-})
+router.get('/', foodsController.index)
 
 router.get('/:id',(req,res,next) => {
-  let id = req.params.id 
+  let id = req.params.id
   database.raw(
     'SELECT * FROM foods WHERE id = ?',
     [id]
@@ -30,6 +25,7 @@ router.get('/:id',(req,res,next) => {
 })
 
 router.post('/', (req,res,next) =>{
+  console.log(`env: ${environment}`)
   let food = req.body.food
   let name = food.name 
   let calories = parseInt(food.calories)
@@ -37,16 +33,17 @@ router.post('/', (req,res,next) =>{
     return res.status(400).send({error: "No food info provided"})
   }
   database.raw(
-    'INSERT INTO foods(name, calories, created_at) VALUES (?,?) RETURNING *'
-    [name, calories, new Date] 
+    'INSERT INTO foods (name, calories) VALUES (?,?) RETURNING *',
+    [name, calories] 
   ).then(food => {
-    res.status(201).json(food)
+    res.status(201).json(food.rows[0])
   })
 })
 
 
 router.put('/:id', (req,res,next) => {
   let food = req.body.food
+  console.log("HELLO WORLD")
   if(!food){
     return res.status(400).send({error: "Please have all details formatted correctly before making the request"})
   }

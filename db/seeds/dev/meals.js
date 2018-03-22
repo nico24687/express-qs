@@ -1,9 +1,23 @@
-exports.seed = function (knex, Promise) {
-  return knex.raw('TRUNCATE meals CASCADE ')
-    .then(function () {
+exports.seed = (knex, Promise) => {
+  return knex.raw('TRUNCATE meals RESTART IDENTITY')
+    .then(() => {
       return Promise.all([
-        knex('meals').insert([{ name: "Breakfast" }, { name: "Lunch" },
-        { name: "Dinner" }, { name: "Snacks" }])
+        knex.raw(
+          'INSERT INTO meals (id, name) VALUES (?, ?)',
+          [1, "Breakfast"]
+        ),
+        knex.raw(
+          'INSERT INTO meals (id, name) VALUES (?, ?)',
+          [2, "Snack"]
+        ),
+        knex.raw(
+          'INSERT INTO meals (id, name) VALUES (?, ?)',
+          [3, "Lunch"]
+        ),
+        knex.raw(
+          'INSERT INTO meals (id, name) VALUES (?, ?)',
+          [4, "Dinner"]
+        )
       ])
     })
 }
