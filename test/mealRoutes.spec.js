@@ -87,7 +87,7 @@ describe('API routes', () => {
     })
   })
 
-  xdescribe('POST /api/v1/meals/:meal_id/foods/:id', () => {
+  describe('POST /api/v1/meals/:meal_id/foods/:id', () => {
     it("makes a new record in the meal_foods table", () => {
       return chai.request(server)
       .post('/api/v1/meals/2/13')

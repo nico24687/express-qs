@@ -9,5 +9,6 @@ router.get('/', mealsController.index)
 
 router.get('/:id/foods', mealsController.show)
 
+router.post('/:id/foods', mealsController.post)
 
 module.exports = router
