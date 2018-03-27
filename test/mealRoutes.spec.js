@@ -24,7 +24,7 @@ describe('API routes', () => {
     database.seed.run()
     .then(() => done())
     .catch(error => {
-      throw errir
+      throw error
     })
     .done()
   })
