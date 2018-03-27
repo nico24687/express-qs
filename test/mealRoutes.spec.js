@@ -47,12 +47,12 @@ describe('API routes', () => {
         response.body[3].name.should.equal("Dinner")
       })
       .catch( error => {
-        throw error 
+        throw error
       })
     })
   })
 
-  xdescribe('GET /api/v1/meals/:meal_id/foods', () => {
+  describe('GET /api/v1/meals/:meal_id/foods', () => {
     it("returns an array of foods for a given meal", () => {
       return chai.request(server)
       .get('/api/v1/meals/2/foods')
@@ -73,7 +73,7 @@ describe('API routes', () => {
         response.body.foods[0].should.have.property('calories')
         response.body.foods[0].calories.should.be.a('number')
       }).catch(error => {
-        throw error 
+        throw error
       })
     })
     it('returns a 404 for a non existing meal record', () => {
