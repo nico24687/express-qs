@@ -10,9 +10,8 @@ router.get('/', mealsController.index)
 
 router.get('/:id/foods', mealsController.show)
 
-router.post('/:id/foods', mealFoodController.create)
+router.post('/:mealId/foods/:foodId', mealFoodController.create)
 
-router.delete('/:id/foods/:id', mealFoodController.destroy)
-
+router.delete('/:mealId/foods/:foodId', mealFoodController.destroy)
 
 module.exports = router
