@@ -3,7 +3,8 @@ const configuration = require('../knexfile')[environment]
 const database = require('knex')(configuration)
 
 class Food {
-  findAll(){
+
+  static findAll() {
     return database.raw(
       'SELECT * FROM foods'
     ).then(food => {
@@ -11,7 +12,7 @@ class Food {
     })
   }
 
-  find(id){
+  static find(id) {
     return database.raw(
       'SELECT * FROM foods WHERE id = ?',
       [id]
@@ -20,7 +21,7 @@ class Food {
     })
   }
 
-  create(name,calories){
+  static create(name,calories) {
     return database.raw(
       'INSERT INTO foods (name, calories) VALUES (?,?) RETURNING *',
       [name, calories]
@@ -50,4 +51,4 @@ class Food {
 }
 
 
-module.exports = new Food()
+module.exports = Food
