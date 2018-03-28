@@ -53,7 +53,7 @@ describe('API routes', () => {
   })
 
   describe('GET /api/v1/meals/:meal_id/foods', () => {
-    it("returns an array of foods for a given meal", () => {
+    it('returns an array of foods for a given meal', () => {
       return chai.request(server)
       .get('/api/v1/meals/2/foods')
       .then(response => {
@@ -72,33 +72,45 @@ describe('API routes', () => {
         response.body.foods[0].name.should.be.a('string')
         response.body.foods[0].should.have.property('calories')
         response.body.foods[0].calories.should.be.a('number')
-      }).catch(error => {
+      })
+      .catch(error => {
         throw error
       })
+
     })
     it('returns a 404 for a non existing meal record', () => {
       return chai.request(server)
       .get('/api/v1/meals/999/foods')
       .then(response => {
         response.should.have.status(404)
-      }).catch(error => {
+      })
+      .catch(error => {
         throw error
       })
     })
   })
 
   describe('POST /api/v1/meals/:meal_id/foods/:id', () => {
-    it("makes a new record in the meal_foods table", () => {
+    it('makes a new record in the meal_foods table', () => {
       return chai.request(server)
       .post('/api/v1/meals/2/foods/1')
       .then(response => {
-        console.log(response.body)
         response.should.have.status(201)
         response.should.be.json
         response.body.should.be.a('object')
         response.body.message.should.include('Added')
       })
       .catch(error => {
+        throw error
+      })
+    })
+    it('returns a 404 for adding to a non-existing meal', () => {
+      return chai.request(server)
+      .post('/api/v1/meals/10/foods/1')
+      .then((response) => {
+        response.should.have.status(404)
+      })
+      .catch((error) => {
         throw error
       })
     })
@@ -123,10 +135,10 @@ describe('API routes', () => {
       .delete('/api/v1/meals/4/foods/4')
       .then(response => {
         response.should.have.status(404)
-      }).catch(error => {
+      })
+      .catch(error => {
         throw error
       })
     })
   })
-
 })
