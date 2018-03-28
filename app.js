@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var sassMiddleware = require('node-sass-middleware');
+var cors = require('cors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -55,8 +56,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.use(cors())
+
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://nico24687.github.io/quantified-self");
+  res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'POST, PATCH, GET, DELETE');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
