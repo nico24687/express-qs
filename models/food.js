@@ -30,7 +30,7 @@ class Food {
     })
   }
 
-  update(id, name, calories){
+  static update(id, name, calories){
     return database.raw(
       'UPDATE foods SET name = ?, calories = ? WHERE id = ? RETURNING *',
       [name, calories, id]
@@ -39,7 +39,7 @@ class Food {
     })
   }
 
-  destroy(id){
+  static destroy(id){
     return database.raw(
       'DELETE FROM foods WHERE id = ?',
       [id]
