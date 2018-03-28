@@ -90,14 +90,40 @@ describe('API routes', () => {
   describe('POST /api/v1/meals/:meal_id/foods/:id', () => {
     it("makes a new record in the meal_foods table", () => {
       return chai.request(server)
-      .post('/api/v1/meals/2/13')
+      .post('/api/v1/meals/2/foods/1')
       .then(response => {
+        console.log(response.body)
         response.should.have.status(201)
         response.should.be.json
         response.body.should.be.a('object')
         response.body.message.should.include('Added')
       })
       .catch(error => {
+        throw error
+      })
+    })
+  })
+
+  describe('DELETE /api/v1/meals/:id/foods/:id', () => {
+    it('should remove the relationship between a meal and food', () => {
+      return chai.request(server)
+      .delete('/api/v1/meals/4/foods/1')
+      .then(response => {
+        response.should.have.status(200)
+        response.should.be.json
+        response.body.should.be.a('object')
+        response.body.message.should.include('Removed')
+      }).catch(error => {
+        throw error
+      })
+    })
+
+    it('should return status 404 when deleting foods not associated with a meal', () => {
+      return chai.request(server)
+      .delete('/api/v1/meals/4/foods/4')
+      .then(response => {
+        response.should.have.status(404)
+      }).catch(error => {
         throw error
       })
     })
