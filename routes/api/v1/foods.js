@@ -13,8 +13,6 @@ router.post('/', foodsController.create )
 
 router.put('/:id', foodsController.update)
 
-router.patch('/:id', foodsController.update)
-
 router.delete('/:id', foodsController.destroy)
 
 module.exports = router
